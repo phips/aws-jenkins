@@ -1,0 +1,29 @@
+- name:  Set up Jenkins
+  hosts: launched
+  gather_facts: true
+  sudo: yes
+  tasks:
+    - fail: msg="Cannot continue, the OS is not RPM based"
+      when: ansible_os_family != 'RedHat'
+
+    # Naturally this isn't essential!
+    - name: Ensure aliases present
+      copy: src=files/aliases.sh
+            dest=/etc/profile.d/aliases.sh
+            owner=root group=root mode=0644
+
+    - name: Ensure Jenkins Yum repo present
+      get_url: url=http://pkg.jenkins-ci.org/redhat/jenkins.repo
+               dest=/etc/yum.repos.d/jenkins.repo mode=0644
+
+    - name: Ensure Jenkins GPG key installed
+      command: rpm --import http://pkg.jenkins-ci.org/redhat/jenkins-ci.org.key
+
+    - name: Ensure Jenkins installed
+      yum: name=jenkins state=present
+      notify:
+          - restart jenkins
+
+  handlers:
+      - name: restart jenkins
+        service: name=jenkins state=restarted
