@@ -3,7 +3,7 @@
   hosts: localhost
   vars:
       region:   eu-west-1
-      ami:      ami-149f7863
+      ami:      ami-7b2ce20c
       set_dns:  False
       instance: t1.micro
   connection: local
@@ -11,7 +11,7 @@
   tasks:
     - name: Launch instance
       ec2:
-        keypair=shared
+        keypair={{ keypair }}
         instance_type={{ instance }}
         image={{ ami }}
         region={{ region }}

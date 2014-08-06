@@ -1,0 +1,7 @@
+---
+- hosts: launched
+  sudo: true
+  roles:
+    - hosts
+    - shell
+    - jenkins

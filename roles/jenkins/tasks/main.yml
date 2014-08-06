@@ -1,0 +1,27 @@
+---
+# tasks file for jenkins
+
+# Sometimes I want to run this with Vagrant
+- name: Ensure Java is present
+  yum: name={{ jenkins_jdk }} state=present
+  when: ansible_distribution != 'Amazon'
+
+- name: Ensure Jenkins Yum repo present
+  get_url: url=http://pkg.jenkins-ci.org/redhat/jenkins.repo
+           dest=/etc/yum.repos.d/jenkins.repo mode=0644
+
+- name: Check for Jenkins GPG in rpmdb
+  command: rpm -q {{ jenkins_key }}
+  register: keycheck
+  ignore_errors: true
+
+- name: Ensure Jenkins GPG key installed
+  command: rpm --import http://pkg.jenkins-ci.org/redhat/jenkins-ci.org.key
+  when: keycheck|failed
+
+- name: Ensure Jenkins installed
+  yum: name=jenkins state=present
+
+- name: Ensure Jenkins is running
+  service: name=jenkins state=running enabled=true
+

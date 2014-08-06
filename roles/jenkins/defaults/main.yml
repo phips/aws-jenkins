@@ -1,0 +1,5 @@
+---
+# defaults file for jenkins
+
+jenkins_jdk: java-1.7.0-openjdk
+jenkins_key: gpg-pubkey-d50582e6-4a3feef6
