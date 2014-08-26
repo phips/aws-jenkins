@@ -2,6 +2,6 @@
 - hosts: launched
   sudo: true
   roles:
-    - hosts
-    - shell
-    - jenkins
+    - { role: hosts,   tags: hosts }
+    - { role: shell,   tags: shell }
+    - { role: jenkins, tags: [ci,jenkins] }
