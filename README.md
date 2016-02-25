@@ -38,7 +38,7 @@ create a DNS entry. By default this is not set to run, but specify
 ``--extra-vars="set_dns=True dns_zone=ZONENAME"`` at runtime and an entry
 ``ci.ZONENAME`` will also be created.
 
-*NOTE*: The first part of the play, 'ec2.yaml', is not idempotent. Every time
-it is run, it will create a new EC2 instance.
+*NOTE*: The first part of the play, 'ec2.yaml' will create a new EC2 instance
+**every time it is run**. This is the nature of the ec2 module.
 
 
